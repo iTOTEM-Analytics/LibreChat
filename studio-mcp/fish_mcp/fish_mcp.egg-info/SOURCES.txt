@@ -1,0 +1,8 @@
+pyproject.toml
+./__init__.py
+./fish_server.py
+fish_mcp.egg-info/PKG-INFO
+fish_mcp.egg-info/SOURCES.txt
+fish_mcp.egg-info/dependency_links.txt
+fish_mcp.egg-info/requires.txt
+fish_mcp.egg-info/top_level.txt

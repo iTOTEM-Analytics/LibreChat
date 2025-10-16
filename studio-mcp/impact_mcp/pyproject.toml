@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "impact_mcp"
+version = "0.0.1"
+requires-python = ">=3.9"
+dependencies = ["mcp>=0.3.0", "fastmcp>=0.2.0"]
+
+[tool.setuptools]
+packages = ["impact_mcp"]
+package-dir = { impact_mcp = "." }  # <- current folder IS the package

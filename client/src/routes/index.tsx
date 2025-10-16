@@ -16,10 +16,12 @@ import RouteErrorBoundary from './RouteErrorBoundary';
 import StartupLayout from './Layouts/Startup';
 import LoginLayout from './Layouts/Login';
 import dashboardRoutes from './Dashboard';
+import studioRoutes from './Studio';
 import ShareRoute from './ShareRoute';
 import ChatRoute from './ChatRoute';
 import Search from './Search';
 import Root from './Root';
+import StudioLanding from '~/components/Studio/StudioLanding';
 
 const AuthLayout = () => (
   <AuthContextProvider>
@@ -54,19 +56,38 @@ export const router = createBrowserRouter(
     },
     {
       path: '/',
+      element: <StudioLanding />,
+      errorElement: <RouteErrorBoundary />,
+    },
+    {
+      path: '/register',
       element: <StartupLayout />,
       errorElement: <RouteErrorBoundary />,
       children: [
         {
-          path: 'register',
+          index: true,
           element: <Registration />,
         },
+      ],
+    },
+    {
+      path: '/forgot-password',
+      element: <StartupLayout />,
+      errorElement: <RouteErrorBoundary />,
+      children: [
         {
-          path: 'forgot-password',
+          index: true,
           element: <RequestPasswordReset />,
         },
+      ],
+    },
+    {
+      path: '/reset-password',
+      element: <StartupLayout />,
+      errorElement: <RouteErrorBoundary />,
+      children: [
         {
-          path: 'reset-password',
+          index: true,
           element: <ResetPassword />,
         },
       ],
@@ -95,13 +116,14 @@ export const router = createBrowserRouter(
           ],
         },
         dashboardRoutes,
+        studioRoutes,
         {
           path: '/',
           element: <Root />,
           children: [
             {
               index: true,
-              element: <Navigate to="/c/new" replace={true} />,
+              element: <Navigate to="/studio" replace={true} />,
             },
             {
               path: 'c/:conversationId?',
