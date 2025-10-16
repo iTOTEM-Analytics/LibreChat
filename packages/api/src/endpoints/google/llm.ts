@@ -152,14 +152,17 @@ export function getGoogleConfig(
     thinking && thinkingBudget != null && (thinkingBudget > 0 || thinkingBudget === -1);
 
   if (shouldEnableThinking && provider === Providers.GOOGLE) {
+    // @ts-expect-error - thinkingConfig is a custom property not in the base type
     (llmConfig as GoogleClientOptions).thinkingConfig = {
       thinkingBudget: thinking ? thinkingBudget : googleSettings.thinkingBudget.default,
       includeThoughts: Boolean(thinking),
     };
   } else if (shouldEnableThinking && provider === Providers.VERTEXAI) {
+    // @ts-expect-error - thinkingBudget is a custom property not in the base type
     (llmConfig as VertexAIClientOptions).thinkingBudget = thinking
       ? thinkingBudget
       : googleSettings.thinkingBudget.default;
+    // @ts-expect-error - includeThoughts is a custom property not in the base type
     (llmConfig as VertexAIClientOptions).includeThoughts = Boolean(thinking);
   }
 
@@ -188,6 +191,7 @@ export function getGoogleConfig(
   }
 
   if (authHeader) {
+    // @ts-expect-error - customHeaders is a custom property not in the base type
     (llmConfig as GoogleClientOptions).customHeaders = {
       Authorization: `Bearer ${apiKey}`,
     };

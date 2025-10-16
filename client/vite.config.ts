@@ -9,6 +9,10 @@ import { VitePWA } from 'vite-plugin-pwa';
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => ({
   base: '',
+  optimizeDeps: {
+    exclude: ['@studio-freight/lenis', 'lenis'],
+    include: ['react', 'react-dom', 'react-router-dom'],
+  },
   server: {
     host: 'localhost',
     port: 3090,
@@ -30,7 +34,8 @@ export default defineConfig(({ command }) => ({
   plugins: [
     react(),
     nodePolyfills(),
-    VitePWA({
+    // Temporarily disable PWA for faster builds during development
+    ...(process.env.NODE_ENV === 'production' ? [VitePWA({
       injectRegister: 'auto', // 'auto' | 'manual' | 'disabled'
       registerType: 'autoUpdate', // 'prompt' | 'autoUpdate'
       devOptions: {
@@ -87,7 +92,7 @@ export default defineConfig(({ command }) => ({
           },
         ],
       },
-    }),
+    })] : []),
     sourcemapExclude({ excludeNodeModules: true }),
     compression({
       threshold: 10240,
@@ -95,14 +100,27 @@ export default defineConfig(({ command }) => ({
   ],
   publicDir: command === 'serve' ? './public' : false,
   build: {
-    sourcemap: process.env.NODE_ENV === 'development',
+    sourcemap: false, // Disable sourcemaps to speed up build
     outDir: './dist',
-    minify: 'terser',
+    minify: 'esbuild', // Changed from 'terser' to 'esbuild' for faster builds
+    target: 'es2020', // Modern target for faster compilation
     rollupOptions: {
       preserveEntrySignatures: 'strict',
       output: {
         manualChunks(id: string) {
           const normalizedId = id.replace(/\\/g, '/');
+
+          // Split Studio application code into separate chunks
+          if (normalizedId.includes('/components/Studio/applications/LDAI/')) {
+            return 'studio-ldai';
+          }
+          if (normalizedId.includes('/components/Studio/applications/StoryFinder/')) {
+            return 'studio-storyfinder';
+          }
+          if (normalizedId.includes('/components/Studio/')) {
+            return 'studio-core';
+          }
+
           if (normalizedId.includes('node_modules')) {
             // High-impact chunking for large libraries
             if (normalizedId.includes('@codesandbox/sandpack')) {

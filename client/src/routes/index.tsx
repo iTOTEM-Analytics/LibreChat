@@ -8,6 +8,7 @@ import {
   TwoFactorScreen,
   RequestPasswordReset,
 } from '~/components/Auth';
+import { lazy, Suspense } from 'react';
 import { MarketplaceProvider } from '~/components/Agents/MarketplaceContext';
 import AgentMarketplace from '~/components/Agents/Marketplace';
 import { OAuthSuccess, OAuthError } from '~/components/OAuth';
@@ -21,7 +22,9 @@ import ShareRoute from './ShareRoute';
 import ChatRoute from './ChatRoute';
 import Search from './Search';
 import Root from './Root';
-import StudioLanding from '~/components/Studio/StudioLanding';
+
+// Lazy load Studio landing to prevent bundling all Studio code in main chunk
+const StudioLanding = lazy(() => import('~/components/Studio/StudioLanding'));
 
 const AuthLayout = () => (
   <AuthContextProvider>
@@ -56,7 +59,11 @@ export const router = createBrowserRouter(
     },
     {
       path: '/',
-      element: <StudioLanding />,
+      element: (
+        <Suspense fallback={<div>Loading...</div>}>
+          <StudioLanding />
+        </Suspense>
+      ),
       errorElement: <RouteErrorBoundary />,
     },
     {

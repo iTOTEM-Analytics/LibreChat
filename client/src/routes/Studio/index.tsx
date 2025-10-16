@@ -1,13 +1,24 @@
 import { RouteObject } from 'react-router-dom';
 import StudioRoute from './StudioRoute';
 import StudioDashboard from '~/components/Studio/StudioDashboard';
-import LDAIChatPage from '~/components/Studio/applications/LDAI/pages/LDAIChatPage';
-import LDAIAdminPage from '~/components/Studio/applications/LDAI/pages/LDAIAdminPage';
-import StoryFinderPage from '~/components/Studio/applications/StoryFinder/pages/StoryFinderPage';
-import StoryCollectionPage from '~/components/Studio/applications/StoryFinder/pages/StoryCollectionPage';
-import CandidateProfilePage from '~/components/Studio/applications/StoryFinder/pages/CandidateProfilePage';
-import GeneratedStoryPage from '~/components/Studio/applications/StoryFinder/pages/GeneratedStoryPage';
-import StoryEditor from '~/components/Studio/applications/StoryFinder/pages/StoryEditor';
+
+// Temporarily disabled to fix build issues - will re-enable after optimization
+// const LDAIChatPage = lazy(() => import('~/components/Studio/applications/LDAI/pages/LDAIChatPage'));
+// const LDAIAdminPage = lazy(() => import('~/components/Studio/applications/LDAI/pages/LDAIAdminPage'));
+// const StoryFinderPage = lazy(() => import('~/components/Studio/applications/StoryFinder/pages/StoryFinderPage'));
+// const StoryCollectionPage = lazy(() => import('~/components/Studio/applications/StoryFinder/pages/StoryCollectionPage'));
+// const CandidateProfilePage = lazy(() => import('~/components/Studio/applications/StoryFinder/pages/CandidateProfilePage'));
+// const GeneratedStoryPage = lazy(() => import('~/components/Studio/applications/StoryFinder/pages/GeneratedStoryPage'));
+// const StoryEditor = lazy(() => import('~/components/Studio/applications/StoryFinder/pages/StoryEditor'));
+
+const ComingSoon = () => (
+  <div className="flex items-center justify-center min-h-screen">
+    <div className="text-center">
+      <h1 className="text-2xl font-bold mb-4">Coming Soon</h1>
+      <p className="text-gray-600">This feature is currently being optimized.</p>
+    </div>
+  </div>
+);
 
 const studioRoutes: RouteObject = {
   path: 'studio',
@@ -19,31 +30,31 @@ const studioRoutes: RouteObject = {
     },
     {
       path: 'ldai/chat',
-      element: <LDAIChatPage />,
+      element: <ComingSoon />,
     },
     {
       path: 'ldai/admin',
-      element: <LDAIAdminPage />,
+      element: <ComingSoon />,
     },
     {
       path: 'storyfinder',
-      element: <StoryFinderPage />,
+      element: <ComingSoon />,
     },
     {
       path: 'storyfinder/:id',
-      element: <StoryCollectionPage />,
+      element: <ComingSoon />,
     },
     {
       path: 'storyfinder/:id/candidate/:cid',
-      element: <CandidateProfilePage />,
+      element: <ComingSoon />,
     },
     {
       path: 'storyfinder/:id/candidate/:cid/story',
-      element: <GeneratedStoryPage />,
+      element: <ComingSoon />,
     },
     {
       path: 'storyfinder/:id/candidate/:cid/story/edit',
-      element: <StoryEditor />,
+      element: <ComingSoon />,
     },
   ],
 };

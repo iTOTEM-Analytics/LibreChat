@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useAuthContext } from '~/hooks/AuthContext';
 import StudioLayout from '~/components/Studio/Layout/Layout';
@@ -13,7 +14,9 @@ export default function StudioRoute() {
   return (
     <BreadcrumbProvider>
       <StudioLayout>
-        <Outlet />
+        <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+          <Outlet />
+        </Suspense>
       </StudioLayout>
     </BreadcrumbProvider>
   );
