@@ -21,6 +21,8 @@ import ChatRoute from './ChatRoute';
 import Search from './Search';
 import Root from './Root';
 import Landing from './Landing';
+import StudioDashboard from './StudioDashboard';
+import LDAIAdmin from './LDAIAdmin';
 
 const AuthLayout = () => (
   <AuthContextProvider>
@@ -37,6 +39,16 @@ export const router = createBrowserRouter(
     {
       path: 'landing',
       element: <Landing />,
+      errorElement: <RouteErrorBoundary />,
+    },
+    {
+      path: 'studio-dashboard',
+      element: <StudioDashboard />,
+      errorElement: <RouteErrorBoundary />,
+    },
+    {
+      path: 'ldai-admin',
+      element: <LDAIAdmin />,
       errorElement: <RouteErrorBoundary />,
     },
     {
