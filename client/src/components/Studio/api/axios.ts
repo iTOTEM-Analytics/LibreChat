@@ -1,7 +1,7 @@
 import axios, { type InternalAxiosRequestConfig } from "axios";
 
 // One place to change origin (dev/prod). Defaults to your current setup.
-export const API_ORIGIN = import.meta.env.VITE_API_ORIGIN || "http://localhost:8787";
+export const API_ORIGIN = import.meta.env.VITE_STUDIO_API_URL || import.meta.env.VITE_API_ORIGIN || "http://localhost:8787";
 export const API_V1_BASE = `${API_ORIGIN}/api/v1`;
 
 const api = axios.create({

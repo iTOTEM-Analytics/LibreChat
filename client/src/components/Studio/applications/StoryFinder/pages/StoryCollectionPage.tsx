@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, Info, Loader2, WandSparkles, Trash } from "lucide-react";
-import { useBreadcrumb } from "../../../components/Layout/BreadcrumbContext";
+import { useBreadcrumb } from "../../Layout/BreadcrumbContext";
 import { type StoryCollection, getProjects } from "../services/projectsApi";
 import StoryDataModal from "../components/StoryCandidateSetupModal";
 import DeleteConfirmCandidateDataModal from "../components/DeleteConfirmCandidateDataModal";

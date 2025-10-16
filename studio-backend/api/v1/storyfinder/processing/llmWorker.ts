@@ -101,7 +101,7 @@ export async function enrichBatch(batch: Candidate[], opts: EnrichOpts): Promise
     // fallback
     return batch.map((c) => ({
       ...c,
-      candidate_score: Math.min(100, Math.max(0, (c.candidate_score ?? 70) + 3)),
+      candidate_score: Math.min(100, Math.max(0, (Number(c.candidate_score) || 70) + 3)),
       llm_website: c.google_api_website || c.llm_website || null,
       description: c.description && c.description !== "Potential narrative opportunity"
         ? c.description
@@ -127,7 +127,7 @@ export async function enrichBatch(batch: Candidate[], opts: EnrichOpts): Promise
       // fallback to stub for this item
       out.push({
         ...c,
-        candidate_score: Math.min(100, Math.max(0, (c.candidate_score ?? 70) + 3)),
+        candidate_score: Math.min(100, Math.max(0, (Number(c.candidate_score) || 70) + 3)),
         llm_website: c.google_api_website || c.llm_website || null,
         description: c.description || `Notable ${opts.focus} signals at ${c.vendor_name}.`,
         extended: { summary: `${c.vendor_name} shows momentum on ${opts.focus}.`, top_clients: [], awards: [] },
@@ -137,7 +137,7 @@ export async function enrichBatch(batch: Candidate[], opts: EnrichOpts): Promise
 
     const j = safeParse(text) || {};
     const adj = Number.isFinite(j.score_adjust) ? Number(j.score_adjust) : 0;
-    const newScore = Math.max(0, Math.min(100, (c.candidate_score ?? 70) + adj));
+    const newScore = Math.max(0, Math.min(100, (Number(c.candidate_score) || 70) + adj));
     out.push({
       ...c,
       candidate_score: newScore,

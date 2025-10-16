@@ -19,16 +19,12 @@ import candidatesRouter from "./api/v1/storyfinder/candidates.routes";
 import ldaiRouter from "./api/v1/ldai/chat.routes";
 import mcpRouter from "./api/v1/ldai/mcp.routes";
 import knowledgeRouter from "./api/v1/ldai/knowledge.routes";
-import authRouter from "./api/v1/auth/auth.routes";
-import chatsRouter from "./api/v1/chats/chats.routes";
 
 app.use("/api/v1/storyfinder", projectsRouter);
 app.use("/api/v1/storyfinder", candidatesRouter);
 app.use("/api/v1/ldai", ldaiRouter);
 app.use("/api/v1/ldai", mcpRouter);
 app.use("/api/v1/ldai", knowledgeRouter);
-app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/chats", chatsRouter);
 
 // basic error guard (so failures don’t drop the socket silently)
 app.use((err: any, _req: any, res: any, _next: any) => {

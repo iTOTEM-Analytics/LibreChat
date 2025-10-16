@@ -147,14 +147,13 @@ async function runBatches(job: Job) {
     const slice = pick.slice(i, i + 5);
     const batch: Candidate[] = slice.map((r, idx) => ({
       id: `${Date.now()}-${i + idx}`,
-      projectId: job.projectId,
       vendor_name: r.vendor_name,
-      city: r.city ?? null,
-      province: r.province ?? null,
+      city: r.city ?? undefined,
+      province: r.province ?? undefined,
       candidate_score: 65 + Math.round(Math.random() * 30),
       description: "Potential narrative opportunity",
-      google_api_website: r.google_api_website ?? null,
-      llm_website: null,
+      google_api_website: r.google_api_website ?? undefined,
+      llm_website: undefined,
     }));
     batches.push(batch);
   }
