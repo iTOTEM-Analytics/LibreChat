@@ -1,16 +1,15 @@
 import { useRef, useState, useEffect } from 'react';
-import { useSetRecoilState } from 'recoil';
 import * as Tabs from '@radix-ui/react-tabs';
-import { ArrowLeft, ChevronLeft, ChevronRight, RefreshCw, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react';
 import type { SandpackPreviewRef, CodeEditorRef } from '@codesandbox/sandpack-react';
 import useArtifacts from '~/hooks/Artifacts/useArtifacts';
 import DownloadArtifact from './DownloadArtifact';
 import { useEditorContext } from '~/Providers';
 import ArtifactTabs from './ArtifactTabs';
+import DashboardCardWrapper from './DashboardCardWrapper';
 import { CopyCodeButton } from './Code';
 import { useLocalize } from '~/hooks';
 import { cn } from '~/utils';
-import store from '~/store';
 
 export default function Artifacts() {
   const localize = useLocalize();
@@ -19,7 +18,6 @@ export default function Artifacts() {
   const previewRef = useRef<SandpackPreviewRef>();
   const [isVisible, setIsVisible] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const setArtifactsVisible = useSetRecoilState(store.artifactsVisibility);
 
   useEffect(() => {
     setIsVisible(true);
@@ -36,7 +34,7 @@ export default function Artifacts() {
   } = useArtifacts();
 
   if (currentArtifact === null || currentArtifact === undefined) {
-    return null;
+    return <DashboardCardWrapper />;
   }
 
   const handleRefresh = () => {
@@ -46,11 +44,6 @@ export default function Artifacts() {
       client.dispatch({ type: 'refresh' });
     }
     setTimeout(() => setIsRefreshing(false), 750);
-  };
-
-  const closeArtifacts = () => {
-    setIsVisible(false);
-    setTimeout(() => setArtifactsVisible(false), 300);
   };
 
   return (
@@ -67,9 +60,6 @@ export default function Artifacts() {
           {/* Header */}
           <div className="flex items-center justify-between border-b border-border-medium bg-surface-primary-alt p-2">
             <div className="flex items-center">
-              <button className="mr-2 text-text-secondary" onClick={closeArtifacts}>
-                <ArrowLeft className="h-4 w-4" />
-              </button>
               <h3 className="truncate text-sm text-text-primary">{currentArtifact.title}</h3>
             </div>
             <div className="flex items-center">
@@ -94,7 +84,7 @@ export default function Artifacts() {
                 <RefreshCw size={16} className="mr-2 animate-spin text-text-secondary" />
               )}
               {/* Tabs */}
-              <Tabs.List className="mr-2 inline-flex h-7 rounded-full border border-border-medium bg-surface-tertiary">
+              <Tabs.List className="inline-flex h-7 rounded-full border border-border-medium bg-surface-tertiary">
                 <Tabs.Trigger
                   value="preview"
                   disabled={isMutating}
@@ -109,9 +99,6 @@ export default function Artifacts() {
                   {localize('com_ui_code')}
                 </Tabs.Trigger>
               </Tabs.List>
-              <button className="text-text-secondary" onClick={closeArtifacts}>
-                <X className="h-4 w-4" />
-              </button>
             </div>
           </div>
           {/* Content */}

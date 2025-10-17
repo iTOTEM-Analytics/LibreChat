@@ -11,8 +11,6 @@ import { useSetFilesToDelete } from '~/hooks';
 import store from '~/store';
 
 export default function Presentation({ children }: { children: React.ReactNode }) {
-  const artifacts = useRecoilValue(store.artifactsState);
-  const artifactsVisibility = useRecoilValue(store.artifactsVisibility);
 
   const setFilesToDelete = useSetFilesToDelete();
 
@@ -65,13 +63,11 @@ export default function Presentation({ children }: { children: React.ReactNode }
           fullPanelCollapse={fullCollapse}
           defaultCollapsed={defaultCollapsed}
           artifacts={
-            artifactsVisibility === true && Object.keys(artifacts ?? {}).length > 0 ? (
-              <ArtifactsProvider>
-                <EditorProvider>
-                  <Artifacts />
-                </EditorProvider>
-              </ArtifactsProvider>
-            ) : null
+            <ArtifactsProvider>
+              <EditorProvider>
+                <Artifacts />
+              </EditorProvider>
+            </ArtifactsProvider>
           }
         >
           <main className="flex h-full flex-col overflow-y-auto" role="main">

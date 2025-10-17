@@ -51,17 +51,12 @@ const SidePanelGroup = memo(
     const hideSidePanel = useRecoilValue(store.hideSidePanel);
 
     const calculateLayout = useCallback(() => {
-      if (artifacts == null) {
-        const navSize = defaultLayout.length === 2 ? defaultLayout[1] : defaultLayout[2];
-        return [100 - navSize, navSize];
-      } else {
-        const navSize = 0;
-        const remainingSpace = 100 - navSize;
-        const newMainSize = Math.floor(remainingSpace / 2);
-        const artifactsSize = remainingSpace - newMainSize;
-        return [newMainSize, artifactsSize, navSize];
-      }
-    }, [artifacts, defaultLayout]);
+      const navSize = 0;
+      const remainingSpace = 100 - navSize;
+      const newMainSize = Math.floor(remainingSpace / 2);
+      const artifactsSize = remainingSpace - newMainSize;
+      return [newMainSize, artifactsSize, navSize];
+    }, []);
 
     const currentLayout = useMemo(() => normalizeLayout(calculateLayout()), [calculateLayout]);
 
@@ -90,7 +85,7 @@ const SidePanelGroup = memo(
       }
     }, [isSmallScreen, defaultCollapsed, navCollapsedSize, fullPanelCollapse]);
 
-    const minSizeMain = useMemo(() => (artifacts != null ? 15 : 30), [artifacts]);
+    const minSizeMain = useMemo(() => 15, []);
 
     /** Memoized close button handler to prevent re-creating it */
     const handleClosePanel = useCallback(() => {
@@ -119,19 +114,15 @@ const SidePanelGroup = memo(
           >
             {children}
           </ResizablePanel>
-          {artifacts != null && (
-            <>
-              <ResizableHandleAlt withHandle className="ml-3 bg-border-medium text-text-primary" />
-              <ResizablePanel
-                defaultSize={currentLayout[1]}
-                minSize={minSizeMain}
-                order={2}
-                id="artifacts-panel"
-              >
-                {artifacts}
-              </ResizablePanel>
-            </>
-          )}
+          <ResizableHandleAlt withHandle className="ml-3 bg-border-medium text-text-primary" />
+          <ResizablePanel
+            defaultSize={currentLayout[1]}
+            minSize={minSizeMain}
+            order={2}
+            id="artifacts-panel"
+          >
+            {artifacts}
+          </ResizablePanel>
           {!hideSidePanel && interfaceConfig.sidePanel === true && (
             <SidePanel
               panelRef={panelRef}
@@ -144,7 +135,7 @@ const SidePanelGroup = memo(
               fullCollapse={fullCollapse}
               setFullCollapse={setFullCollapse}
               defaultSize={currentLayout[currentLayout.length - 1]}
-              hasArtifacts={artifacts != null}
+              hasArtifacts={true}
               interfaceConfig={interfaceConfig}
             />
           )}
